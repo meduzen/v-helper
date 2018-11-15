@@ -1,5 +1,5 @@
 {
-  "name": "css-variables-helper.scss",
+  "name": "v.scss",
   "version": "1.0.0",
   "description": "A SCSS v() function to shorten the writing of CSS custom properties (also named CSS variables).",
   "main": "src/functions/v.scss",
