@@ -1,0 +1,22 @@
+/*
+ * CSS CUSTOM PROPERTY FUNCTION
+ *
+ * A shorter access to `var(--myVar)`
+ *
+ * Use:
+ * `color: v(primary);`
+ * `color: v(primary, #000);`
+ * `padding-left: v(x-padding, 2rem);`
+ * `transform: translate3d(v(x-delta), v(y-delta), 0);`
+ *
+ * Parameters:
+ *  $propertyName: name of the CSS custom property, without its double hyphen prefix
+ *  $fallback (optional, null by default): custom property fallback value
+ */
+
+@function v($propertyName, $fallback: null) {
+  @if($fallback) {
+    @return var(--#{$propertyName}, #{$fallback});
+  }
+  @return var(--#{$propertyName});
+}
