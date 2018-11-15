@@ -1,0 +1,24 @@
+{
+  "name": "css-variables-helper.scss",
+  "version": "1.0.0",
+  "description": "A SCSS v() function to shorten the writing of CSS custom properties (also named CSS variables).",
+  "main": "src/functions/v.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "css",
+    "custom properties",
+    "variables",
+    "sass",
+    "scss",
+    "function"
+  ],
+  "homepage": "https://github.com/meduzen/v-helper",
+  "author": "Mehdi Merah <hi@mehdi.cc>",
+  "license": "WTFPL",
+  "repository": "github:meduzen/v-helper.git",
+  "bugs": {
+    "url": "https://github.com/meduzen/v-helper/issues"
+  }
+}
