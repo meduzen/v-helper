@@ -1,6 +1,6 @@
 {
   "name": "v.scss",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A SCSS v() function to shorten the writing of CSS custom properties (also named CSS variables).",
   "main": "src/functions/v.scss",
   "scripts": {
