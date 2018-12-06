@@ -36,9 +36,9 @@ html {
 
 ### Fallback value as optional second parameter
 
-The CSS `var()` function can take a fallback as second parameter: if the wanted custom property isn’t defined or valid for the browser, this default value will be used.
+The CSS `var()` function can take a fallback as second parameter: if the wanted custom property isn’t defined or valid for the browser, this parameter will be used.
 
-In the following example, the page background color will be `#433221`, the text will receive the `yellow` color and links the `cyan` one.
+In the following example, the background color will be `#433221`, the text will receive the `yellow` color and links the `cyan` one.
 ```scss
 :root {
   --primary: cyan;
