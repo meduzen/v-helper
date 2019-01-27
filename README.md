@@ -56,6 +56,41 @@ a {
 ```
 View it on [CodePen](https://codepen.io/meduzen/pen/YRyEPe).
 
+### A note about SCSS interpolation
+
+In the first example of this documentation, custom poperties are assigned their final values:
+```scss
+:root {
+  --primary: #000; // `#000` stays the same after compilation, it’s the final value
+}
+```
+
+In order to use SCSS variables instead of final values, interpolation is required:
+```scss
+// all-my-variables.scss
+$primary-color: #000;
+
+// my-global-layout.scss
+:root {
+  --primary: $primary-color; // error 🚫, custom property assignment needs interpolation
+  --primary: #{$primary-color}; // correct ✅, value interpolated with `#{}`
+}
+```
+Interpolation means “Have a look at `#{what is inside the curly braced}` and replace the `$value-string` by its computed value (`$000`)”. In other words, `--primary: #{$primary-color}` is compiled to `--primary: #000`, as expected.
+
+Assigning the computed value of a SCSS function follows the same [interpolation rules](https://github.com/sass/sass/issues/2516). `v()` being a function, using it to assign the value of a CSS custom property to _another_ custom property requires interpolation:
+```scss
+.my-class-that-erases-the-root-color {
+  --superColor: var(--secondaryColor); // correct ✅, regular syntax
+  --superColor: v(secondaryColor); // error 🚫, custom property assignment needs interpolation
+  --superColor: #{v(secondaryColor)}; // correct ✅, function interpolated with `#{}`
+  
+  color: v(superColor); // correct ✅, `color` is not a custom property
+}
+```
+
+In that case, as `v()`’s purpose is to increase readability and bring some coolness ✌️ in the assignment of CSS custom properties, one may favor sticking to the standard syntax (`var(--propName)`) instead of insulting `v()` by putting it in an even more uncool syntax (`#{v(propName)}`).
+
 ## See also
 
 - Custom properties [on Can I Use](https://caniuse.com/#feat=css-variables).
