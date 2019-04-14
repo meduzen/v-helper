@@ -94,6 +94,7 @@ In that case, as `v()`’s purpose is to increase readability and bring some coo
 ## See also
 
 - Custom properties [on Can I Use](https://caniuse.com/#feat=css-variables).
+- [davidkpiano/sass-v](https://github.com/davidkpiano/sass-v), a similar project with more features, done way before mine 🤭.
 - [malyw/css-vars](https://github.com/malyw/css-vars), a SCSS mixin allowing you to start writing some CSS custom properties even if the browsers you target don’t support them.
 - [postcss-custom-properties](https://github.com/postcss/postcss-custom-properties), a PostCSS plugin with a similar purpose.
 - [_Dark theme in a day_](https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a), an all-round article with a lot of CSS custom properties.
