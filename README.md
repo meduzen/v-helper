@@ -1,3 +1,4 @@
+
 # v.scss
 
 `v.scss` brings a unique SCSS function that allows easier access to [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/var) using `v(propName)` instead of `var(--propName)`.
@@ -56,7 +57,9 @@ a {
 ```
 View it on [CodePen](https://codepen.io/meduzen/pen/YRyEPe).
 
-### A note about SCSS interpolation
+## Edge cases
+
+### SCSS interpolation
 
 In the first example of this documentation, custom properties are assigned their final values:
 ```scss
@@ -90,6 +93,33 @@ Assigning the computed value of a SCSS function follows the same [interpolation 
 ```
 
 In that case, as `v()`’s purpose is to increase readability and bring some coolness ✌️ in the assignment of CSS custom properties, one may favor sticking to the standard syntax (`var(--propName)`) instead of insulting `v()` by putting it in an even more uncool syntax (`#{v(propName)}`).
+
+### `--` is a valid custom property name
+
+It turns out that [`--` is a valid name for a CSS custom property](https://twitter.com/alexzaworski/status/1127688935541338112).
+
+Declaring and using it is all about edge cases:
+```scss
+.my-class-with-weird-declarations {
+  --: .5; // error 🚫, expected "}", was "--: 0.5;"
+  --#{''}: .5; // correct ✅
+  #{'--'}: .5; // also correct ✅
+
+  opacity: var(--); // error 🚫, Invalid CSS after "var(--": expected expression (e.g. 1px, bold), was ");"
+  opacity: var(#{'--'}); // correct ✅
+  opacity: v(); // correct ✅, thanks to v() coolness ✌️
+}
+```
+
+Other example with three dashes instead of two dashes:
+```scss
+.my-class-with-more-dashes {
+  --#{'-'}: .5; // correct ✅
+  #{'---'}: .5; // also correct ✅
+  opacity: var(#{'---'}); // correct ✅, interpolated
+  opacity: v('-'); // correct ✅, thanks to v() coolness ✌️
+}
+```
 
 ## See also
 
