@@ -87,7 +87,7 @@ Assigning the computed value of a SCSS function follows the same [interpolation 
   --superColor: var(--secondaryColor); // correct ✅, regular syntax
   --superColor: v(secondaryColor); // error 🚫, custom property assignment needs interpolation
   --superColor: #{v(secondaryColor)}; // correct ✅, function interpolated with `#{}`
-  
+
   color: v(superColor); // correct ✅, `color` is not a custom property
 }
 ```
@@ -116,6 +116,7 @@ Other example with three dashes instead of two dashes:
 .my-class-with-more-dashes {
   --#{'-'}: .5; // correct ✅
   #{'---'}: .5; // also correct ✅
+
   opacity: var(#{'---'}); // correct ✅, interpolated
   opacity: v('-'); // correct ✅, thanks to v() coolness ✌️
 }
