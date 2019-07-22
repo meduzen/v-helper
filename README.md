@@ -1,3 +1,4 @@
+
 # v.scss
 
 `v.scss` brings a unique SCSS function that allows easier access to [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/var) using `v(propName)` instead of `var(--propName)`.
@@ -11,7 +12,7 @@ Yup, `v` purpose is better readability by saving you 4 characters. It’s all it
 
 ## Usage
 
-Start by defining some CSS custom properties:
+Start by declaring some CSS custom properties:
 ```css
 :root {
   --primary: #000;
@@ -56,9 +57,11 @@ a {
 ```
 View it on [CodePen](https://codepen.io/meduzen/pen/YRyEPe).
 
-### A note about SCSS interpolation
+## Edge cases
 
-In the first example of this documentation, custom poperties are assigned their final values:
+### SCSS interpolation
+
+In the first example of this documentation, custom properties are assigned their final values:
 ```scss
 :root {
   --primary: #000; // `#000` stays the same after compilation, it’s the final value
@@ -84,17 +87,45 @@ Assigning the computed value of a SCSS function follows the same [interpolation 
   --superColor: var(--secondaryColor); // correct ✅, regular syntax
   --superColor: v(secondaryColor); // error 🚫, custom property assignment needs interpolation
   --superColor: #{v(secondaryColor)}; // correct ✅, function interpolated with `#{}`
-  
+
   color: v(superColor); // correct ✅, `color` is not a custom property
 }
 ```
 
 In that case, as `v()`’s purpose is to increase readability and bring some coolness ✌️ in the assignment of CSS custom properties, one may favor sticking to the standard syntax (`var(--propName)`) instead of insulting `v()` by putting it in an even more uncool syntax (`#{v(propName)}`).
 
+### `--` is a valid custom property name
+
+It turns out that [`--` is a valid name for a CSS custom property](https://twitter.com/alexzaworski/status/1127688935541338112).
+
+Declaring and using it is all about edge cases:
+```scss
+.my-class-with-weird-declarations {
+  --: .5; // error 🚫, expected "}", was "--: 0.5;"
+  --#{''}: .5; // correct ✅
+  #{'--'}: .5; // also correct ✅
+
+  opacity: var(--); // error 🚫, Invalid CSS after "var(--": expected expression (e.g. 1px, bold), was ");"
+  opacity: var(#{'--'}); // correct ✅
+  opacity: v(); // correct ✅, thanks to v() coolness ✌️
+}
+```
+
+Other example with three dashes instead of two dashes:
+```scss
+.my-class-with-more-dashes {
+  --#{'-'}: .5; // correct ✅
+  #{'---'}: .5; // also correct ✅
+
+  opacity: var(#{'---'}); // correct ✅, interpolated
+  opacity: v('-'); // correct ✅, thanks to v() coolness ✌️
+}
+```
+
 ## See also
 
 - Custom properties [on Can I Use](https://caniuse.com/#feat=css-variables).
-- [davidkpiano/sass-v](https://github.com/davidkpiano/sass-v), a similar project with more features, done way before mine 🤭.
+- [davidkpiano/sass-v](https://github.com/davidkpiano/sass-v), a similar project with more features, done way before mine 🤭.
 - [malyw/css-vars](https://github.com/malyw/css-vars), a SCSS mixin allowing you to start writing some CSS custom properties even if the browsers you target don’t support them.
 - [postcss-custom-properties](https://github.com/postcss/postcss-custom-properties), a PostCSS plugin with a similar purpose.
 - [_Dark theme in a day_](https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a), an all-round article with a lot of CSS custom properties.
