@@ -11,7 +11,7 @@ Yup, `v` purpose is better readability by saving you 4 characters. It’s all it
 
 ## Usage
 
-Start by defining some CSS custom properties:
+Start by declaring some CSS custom properties:
 ```css
 :root {
   --primary: #000;
@@ -58,7 +58,7 @@ View it on [CodePen](https://codepen.io/meduzen/pen/YRyEPe).
 
 ### A note about SCSS interpolation
 
-In the first example of this documentation, custom poperties are assigned their final values:
+In the first example of this documentation, custom properties are assigned their final values:
 ```scss
 :root {
   --primary: #000; // `#000` stays the same after compilation, it’s the final value
@@ -94,7 +94,7 @@ In that case, as `v()`’s purpose is to increase readability and bring some coo
 ## See also
 
 - Custom properties [on Can I Use](https://caniuse.com/#feat=css-variables).
-- [davidkpiano/sass-v](https://github.com/davidkpiano/sass-v), a similar project with more features, done way before mine 🤭.
+- [davidkpiano/sass-v](https://github.com/davidkpiano/sass-v), a similar project with more features, done way before mine 🤭.
 - [malyw/css-vars](https://github.com/malyw/css-vars), a SCSS mixin allowing you to start writing some CSS custom properties even if the browsers you target don’t support them.
 - [postcss-custom-properties](https://github.com/postcss/postcss-custom-properties), a PostCSS plugin with a similar purpose.
 - [_Dark theme in a day_](https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a), an all-round article with a lot of CSS custom properties.
