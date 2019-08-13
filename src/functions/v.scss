@@ -16,7 +16,7 @@
 
 @function v($propertyName: '', $fallback: null) {
   @if($fallback) {
-    @return var(--#{$propertyName}, #{$fallback});
+    @return var(--#{$propertyName}, $fallback);
   }
   @return var(--#{$propertyName});
 }
