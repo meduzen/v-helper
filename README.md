@@ -26,7 +26,7 @@ html {
   color: v(primary);
 }
 ```
-That’s it! This will generates regular CSS:
+That’s it! Here’s the generated CSS:
 
 ```css
 html {
@@ -48,7 +48,7 @@ In the following example, the background color will be `#433221`, the text will 
 
 html {
   background: v(bg, brown); // `background: var(--bg, brown);`
-  color: v(primaryyyy, yellow); // `color: var(--primary, yellow);`
+  color: v(primaryyyy, yellow); // `color: var(--primaryyyy, yellow);`
 }
 
 a {
@@ -121,6 +121,10 @@ Other example with three dashes instead of two dashes:
   opacity: v('-'); // correct ✅, thanks to v() coolness ✌️
 }
 ```
+
+## Changelog
+
+See [releases](https://github.com/meduzen/v-helper/releases).
 
 ## See also
 
