@@ -101,7 +101,7 @@ It turns out that [`--` is a valid name for a CSS custom property](https://twitt
 Declaring and using it is all about edge cases:
 ```scss
 .my-class-with-weird-declarations {
-  --: .5; // error 🚫, expected "}", was "--: 0.5;"
+  --: .5; // error 🚫, expected "}", was "--: .5;"
   --#{''}: .5; // correct ✅
   #{'--'}: .5; // also correct ✅
 
