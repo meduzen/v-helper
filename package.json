@@ -20,5 +20,8 @@
   "repository": "github:meduzen/v-helper.git",
   "bugs": {
     "url": "https://github.com/meduzen/v-helper/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

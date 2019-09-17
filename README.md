@@ -1,4 +1,3 @@
-
 # v.scss
 
 `v.scss` brings a unique SCSS function that allows easier access to [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/var) using `v(propName)` instead of `var(--propName)`.
