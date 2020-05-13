@@ -1,17 +1,15 @@
 # v.scss
 
-`v.scss` brings a unique SCSS function that allows easier access to [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/var) using `v(propName)` instead of `var(--propName)`.
-
-Yup, `v` purpose is better readability by saving you 4 characters. It’s all it does.
+`v.scss` brings a single SCSS function for shorter access (4 characters saved!) to [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/var) : `v(propName)` instead of `var(--propName)`. It also improves fallbacks chaining.
 
 ## Installation
 
 1. `npm install v.scss` pulls the package into your project.
-2. `@import '~v.scss';` in a SCSS files make `v()` available.
+2. `@import '~v.scss';` in a SCSS files makes `v()` available.
 
 ## Usage
 
-Start by declaring some CSS custom properties:
+Declare your CSS custom properties as you usually do:
 ```css
 :root {
   --primary: #000;
@@ -36,9 +34,8 @@ html {
 
 ### Fallback value as optional second parameter
 
-The CSS `var()` function can take a fallback as second parameter: if the wanted custom property isn’t defined or valid for the browser, this parameter will be used.
+The CSS `var()` function can take a fallback value as second parameter: if the wanted custom property isn’t defined or valid for the browser, the fallback will be used.
 
-In the following example, the background color will be `#433221`, the text will receive the `yellow` color and links the `cyan` one.
 ```scss
 :root {
   --primary: cyan;
@@ -49,49 +46,50 @@ html {
   background: v(bg, brown); // `background: var(--bg, brown);`
   color: v(primaryyyy, yellow); // `color: var(--primaryyyy, yellow);`
 }
+```
 
-a {
-  color: v(primary); // color: var(--primary);
+The `background` will be `#433221` (`--bg` value) but the `color` will be `yellow` because `--primaryyyy` doesn’t exist.
+
+
+### Multiple fallbacks
+
+You can have multiple fallbacks by chaining multiple custom properties names. The last parameter is always a fallback value.
+
+```css
+html {
+  color: v(primary, accent, bg, #f0f0f0);
+
+  // generates
+  color: var(--primary, var(--accent, var(--bg, #f0f0f0)));
 }
 ```
-View it on [CodePen](https://codepen.io/meduzen/pen/YRyEPe).
+
+(If you need the last parameter to not be a fallback value, replace it by `null` .)
 
 ## Edge cases
 
 ### SCSS interpolation
 
-In the first example of this documentation, custom properties are assigned their final values:
+In order to assign a value to a custom property using a SCSS variable or a SCSS function, [interpolation](https://github.com/sass/sass/issues/2516) is required:
 ```scss
-:root {
-  --primary: #000; // `#000` stays the same after compilation, it’s the final value
+$primary: #000;
+
+.my-class {
+  --primary: $primary; // error 🚫, custom property assignment needs interpolation
+  --primary: #{$primary}; // correct ✅, value interpolated with `#{}`
+  --primary: #000; // correct ✅, regular syntax
+
+  --accent: v(secondary); // error 🚫, custom property assignment needs interpolation
+  --accent: #{v(secondary)}; // correct ✅, function interpolated
+  --accent: var(--secondary); // correct ✅, regular syntax
+
+  color: v(accent); // correct ✅, `color` is not a custom property
 }
 ```
 
-In order to use SCSS variables instead of final values, interpolation is required:
-```scss
-// all-my-variables.scss
-$primary-color: #000;
+Interpolation means “Have a look at `#{what is inside the curly braced}` and replace the `$value-string` by its computed value (`$000`)”.
 
-// my-global-layout.scss
-:root {
-  --primary: $primary-color; // error 🚫, custom property assignment needs interpolation
-  --primary: #{$primary-color}; // correct ✅, value interpolated with `#{}`
-}
-```
-Interpolation means “Have a look at `#{what is inside the curly braced}` and replace the `$value-string` by its computed value (`$000`)”. In other words, `--primary: #{$primary-color}` is compiled to `--primary: #000`, as expected.
-
-Assigning the computed value of a SCSS function follows the same [interpolation rules](https://github.com/sass/sass/issues/2516). `v()` being a function, using it to assign the value of a CSS custom property to _another_ custom property requires interpolation:
-```scss
-.my-class-that-erases-the-root-color {
-  --superColor: var(--secondaryColor); // correct ✅, regular syntax
-  --superColor: v(secondaryColor); // error 🚫, custom property assignment needs interpolation
-  --superColor: #{v(secondaryColor)}; // correct ✅, function interpolated with `#{}`
-
-  color: v(superColor); // correct ✅, `color` is not a custom property
-}
-```
-
-In that case, as `v()`’s purpose is to increase readability and bring some coolness ✌️ in the assignment of CSS custom properties, one may favor sticking to the standard syntax (`var(--propName)`) instead of insulting `v()` by putting it in an even more uncool syntax (`#{v(propName)}`).
+In situations where interpolation is needed, using `v()` is less readable (`#{v(propName)}`) than the standard syntax (`var(--propName)`).
 
 ### `--` is a valid custom property name
 
@@ -99,25 +97,25 @@ It turns out that [`--` is a valid name for a CSS custom property](https://twitt
 
 Declaring and using it is all about edge cases:
 ```scss
-.my-class-with-weird-declarations {
-  --: .5; // error 🚫, expected "}", was "--: .5;"
+.my-class {
+  --: .5; // error 🚫
   --#{''}: .5; // correct ✅
-  #{'--'}: .5; // also correct ✅
+  #{'--'}: .5; // correct ✅
 
-  opacity: var(--); // error 🚫, Invalid CSS after "var(--": expected expression (e.g. 1px, bold), was ");"
+  opacity: var(--); // error 🚫
   opacity: var(#{'--'}); // correct ✅
-  opacity: v(); // correct ✅, thanks to v() coolness ✌️
+  opacity: v(); // correct ✅, thanks to v() ✌️
 }
 ```
 
-Other example with three dashes instead of two dashes:
+Another example, with three dashes:
 ```scss
 .my-class-with-more-dashes {
   --#{'-'}: .5; // correct ✅
-  #{'---'}: .5; // also correct ✅
+  #{'---'}: .5; // correct ✅
 
   opacity: var(#{'---'}); // correct ✅, interpolated
-  opacity: v('-'); // correct ✅, thanks to v() coolness ✌️
+  opacity: v('-'); // correct ✅, thanks to v() ✌️
 }
 ```
 
