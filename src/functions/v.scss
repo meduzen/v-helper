@@ -6,17 +6,32 @@
  * Use:
  * `color: v(primary);`
  * `color: v(primary, #000);`
+ * `color: v(primary, seconday, ternary, #000);`
  * `padding-left: v(x-padding, 2rem);`
  * `transform: translate3d(v(x-delta), v(y-delta), 0);`
  *
  * Parameters:
- *  $propertyName: name of the CSS custom property, without its double hyphen prefix
- *  $fallback (optional, null by default): custom property fallback value
+ *  $propertyName: a CSS custom property name without its double hyphen prefix
+ *  $argsFallbacks (optional): a list of custom properties names followed by a fallback value.
  */
 
-@function v($propertyName: '', $fallback: null) {
-  @if($fallback) {
-    @return var(--#{$propertyName}, $fallback);
+@function v($propertyName: '', $argsFallbacks...) {
+  $fallbacksNb: length($argsFallbacks);
+
+  // No fallbacks.
+  @if $fallbacksNb < 1 {
+    @return var(--#{$propertyName});
   }
-  @return var(--#{$propertyName});
+
+  // Last fallback: not a custom property.
+  $fallbacks: nth($argsFallbacks, $fallbacksNb);
+
+  // Loop on custom props fallbacks from last one to first one.
+  @if $fallbacksNb > 1 {
+    @for $index from $fallbacksNb - 1 through 1 {
+      $fallbacks: var(--#{nth($argsFallbacks, $index)}, #{$fallbacks});
+    }
+  }
+
+  @return var(--#{$propertyName}, $fallbacks);
 }
