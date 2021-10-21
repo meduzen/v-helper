@@ -121,8 +121,6 @@ Another example, with three dashes:
 }
 ```
 
-### 
-
 ## Changelog
 
 See [releases](https://github.com/meduzen/v-helper/releases).
