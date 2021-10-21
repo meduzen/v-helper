@@ -64,7 +64,9 @@ html {
 }
 ```
 
-(If you need the last parameter to not be a fallback value, replace it by `null` .)
+Notes:
+- if you need the last parameter to not be a fallback value, replace it by `null`;
+- if you need [more parameters to not be fallback values](https://github.com/meduzen/v-helper/issues/8), don’t use `v()`.
 
 ## Edge cases
 
@@ -118,6 +120,8 @@ Another example, with three dashes:
   opacity: v('-'); // correct ✅, thanks to v() ✌️
 }
 ```
+
+### 
 
 ## Changelog
 
