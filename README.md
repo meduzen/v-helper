@@ -2,6 +2,18 @@
 
 `v.scss` brings a single SCSS function for shorter access (4 characters saved!) to [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/var) : `v(propName)` instead of `var(--propName)`. It also improves fallbacks chaining.
 
+## Table of contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Fallback value as optional second parameter](#fallback-value-as-optional-second-parameter)
+  - [Multiple fallbacks](#multiple-fallbacks)
+- [Edge cases](#edge-cases)
+  - [SCSS interpolation](#scss-interpolation)
+  - [`--` is a valid custom property name](#---is-a-valid-custom-property-name)
+- [Changelog](#changelog)
+- [Seel also](#see-also)
+
 ## Installation
 
 1. `npm install v.scss` pulls the package into your project.
