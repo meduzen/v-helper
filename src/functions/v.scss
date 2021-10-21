@@ -1,4 +1,4 @@
-/*
+/**
  * CSS CUSTOM PROPERTY FUNCTION
  *
  * A shorter access to `var(--myVar)`
@@ -14,7 +14,6 @@
  *  $propertyName: a CSS custom property name without its double hyphen prefix
  *  $argsFallbacks (optional): a list of custom properties names followed by a fallback value.
  */
-
 @function v($propertyName: '', $argsFallbacks...) {
   $fallbacksNb: length($argsFallbacks);
 
@@ -23,15 +22,35 @@
     @return var(--#{$propertyName});
   }
 
-  // Last fallback: not a custom property.
+  // Last fallback: it can be a valid CSS value, or `null`.
   $fallbacks: nth($argsFallbacks, $fallbacksNb);
 
-  // Loop on custom props fallbacks from last one to first one.
   @if $fallbacksNb > 1 {
-    @for $index from $fallbacksNb - 1 through 1 {
-      $fallbacks: var(--#{nth($argsFallbacks, $index)}, #{$fallbacks});
+
+    // Last parameter is a valid fallback.
+    @if ($fallbacks != null) {
+      $fallbacks: meduzen-wrap-v-fallbacks($argsFallbacks, $fallbacksNb - 1, $fallbacks)
+    } @else {
+
+      // Last parameter is null: it isn’t a valid fallback, we skip it.
+      $fallbacks: var(--#{nth($argsFallbacks, $fallbacksNb - 1)});
+
+      @if $fallbacksNb > 2 {
+        $fallbacks: meduzen-wrap-v-fallbacks($argsFallbacks, $fallbacksNb - 2, $fallbacks)
+      }
     }
   }
 
   @return var(--#{$propertyName}, $fallbacks);
+}
+
+/**
+ * Wrap custom properties fallbacks.
+ */
+@function meduzen-wrap-v-fallbacks($argsFallbacks, $upper-index, $fallbacks) {
+  @for $index from $upper-index through 1 {
+    $fallbacks: var(--#{nth($argsFallbacks, $index)}, #{$fallbacks});
+  }
+
+  @return $fallbacks;
 }
