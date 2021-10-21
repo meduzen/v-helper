@@ -28,8 +28,22 @@
 
   // Loop on custom props fallbacks from last one to first one.
   @if $fallbacksNb > 1 {
-    @for $index from $fallbacksNb - 1 through 1 {
-      $fallbacks: var(--#{nth($argsFallbacks, $index)}, #{$fallbacks});
+
+    // Last parameter is a real fallback.
+    @if ($fallbacks != null) {
+      @for $index from $fallbacksNb - 1 through 1 {
+        $fallbacks: var(--#{nth($argsFallbacks, $index)}, #{$fallbacks});
+      }
+    } @else {
+
+      // Last parameter is null, so it isn’t a real fallback: we skip it.
+      $fallbacks: var(--#{nth($argsFallbacks, $fallbacksNb - 1)});
+
+      @if $fallbacksNb > 2 {
+        @for $index from $fallbacksNb - 2 through 1 {
+          $fallbacks: var(--#{nth($argsFallbacks, $index)}, #{$fallbacks});
+        }
+      }
     }
   }
 
