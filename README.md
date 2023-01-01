@@ -80,7 +80,7 @@ html {
 
 Notes:
 - if you need the last parameter to not be a fallback value, replace it by `null`;
-- if you need [more parameters to not be fallback values](https://github.com/meduzen/v-helper/issues/8), don’t use `v()`.
+- if you need [more parameters to not be fallback values](https://github.com/meduzen/v-helper/issues/8), wrap them in quotes `v()`, as described [in a comment](https://github.com/meduzen/v-helper/issues/8#issuecomment-1368505230).
 
 ## Edge cases
 
