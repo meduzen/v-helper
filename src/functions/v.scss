@@ -1,3 +1,6 @@
+@use 'sass:meta';
+@use 'sass:string';
+
 /**
  * CSS CUSTOM PROPERTY FUNCTION
  *
@@ -24,6 +27,11 @@
 
   // Last fallback: it can be a valid CSS value, or `null`.
   $fallbacks: nth($argsFallbacks, $fallbacksNb);
+
+  // Strip quotes around fallback.
+  @if meta.type-of($fallbacks) == 'string' {
+    $fallbacks: string.unquote($fallbacks);
+  }
 
   @if $fallbacksNb > 1 {
 

@@ -2,7 +2,9 @@
 
 `v.scss` brings a single SCSS function for shorter access (4 characters saved!) to [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/var) : `v(propName)` instead of `var(--propName)`. It also improves fallbacks chaining.
 
-⚠️ While this helper remains cool, I have decided to not use it outside of personal projects. Compared to IDE auto-completion, its benefits might not be worth the cognitive load linked to any additional abstraction.
+> **Note**
+>
+> This helper has cool features, but I have decided to not use it outside of personal projects. Compared to IDE auto-completion, its benefits might not be worth the cognitive load linked to an additional abstraction.
 
 ## Table of contents
 
@@ -64,12 +66,26 @@ html {
 
 The `background` will be `#433221` (`--bg` value) but the `color` will be `yellow` because `--primaryyyy` doesn’t exist.
 
+> **Note**
+>
+> If you need the last parameter to be a string, wrap its quotes in more quotes:
+>
+> ```scss
+> .shrug::after {
+>   content: v(shrug-emoji, "'¯\_(ツ)_/¯'"); /* double quotes around single ones */
+>
+>   // generates
+>   content: var(--shrug-emoji, '¯\_(ツ)_/¯'); /* single quotes */
+> }
+> ```
+>
+> You can swap double and single quotes. CSS will be fine.
 
 ### Multiple fallbacks
 
 You can have multiple fallbacks by chaining multiple custom properties names. The last parameter is always a fallback value.
 
-```css
+```scss
 html {
   color: v(primary, accent, bg, #f0f0f0);
 
@@ -78,9 +94,29 @@ html {
 }
 ```
 
-Notes:
-- if you need the last parameter to not be a fallback value, replace it by `null`;
-- if you need [more parameters to not be fallback values](https://github.com/meduzen/v-helper/issues/8), wrap them in quotes `v()`, as described [in a comment](https://github.com/meduzen/v-helper/issues/8#issuecomment-1368505230).
+If you need the last parameter to not be a fallback value, replace it by `null`:
+
+```scss
+html {
+  color: v(primary, accent, null);
+
+  // generates
+  color: var(--primary, var(--accent));
+}
+```
+
+> **Note**
+>
+> If you need [a list of values to not be considered as fallback](https://github.com/meduzen/v-helper/issues/8), wrap them in quotes: as described [in a comment](https://github.com/meduzen/v-helper/issues/8#issuecomment-1368505230), the list will be considered as one value, and the quotes will be stripped.
+>
+> ```scss
+> .my-class {
+>   transition-property: v(transition-properties, 'opacity, visibility');
+>
+>   // generates
+>   transition-property: var(--transition-properties, opacity, visibility);
+> }
+> ```
 
 ## Edge cases
 
