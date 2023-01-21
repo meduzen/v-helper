@@ -68,19 +68,24 @@ The `background` will be `#433221` (`--bg` value) but the `color` will be `yello
 
 > **Note**
 >
-> If you need the last parameter to be a string, wrap its quotes in more quotes.
+> If you need the last parameter to be a string, wrap its quotes in more quotes:
 >
 > ```scss
 > .shrug::after {
->   content: v(shrug-emoji, "'🤷‍♂️'");
+>   content: v(shrug-emoji, "'¯\_(ツ)_/¯'"); /* double quotes around single ones */
+>
+>   // generates
+>   content: var(--shrug-emoji, '¯\_(ツ)_/¯'); /* single quotes */
 > }
 > ```
+>
+> You can swap double and single quotes. CSS will be fine.
 
 ### Multiple fallbacks
 
 You can have multiple fallbacks by chaining multiple custom properties names. The last parameter is always a fallback value.
 
-```css
+```scss
 html {
   color: v(primary, accent, bg, #f0f0f0);
 
@@ -89,10 +94,29 @@ html {
 }
 ```
 
+If you need the last parameter to not be a fallback value, replace it by `null`:
+
+```scss
+html {
+  color: v(primary, accent, null);
+
+  // generates
+  color: var(--primary, var(--accent));
+}
+```
+
 > **Note**
 >
-> - if you need the last parameter to not be a fallback value, replace it by `null`;
-> - if you need [a list of values to not be considered as fallback](https://github.com/meduzen/v-helper/issues/8), wrap them in quotes: as described [in a comment](https://github.com/meduzen/v-helper/issues/8#issuecomment-1368505230), the list will be considered as one value, and the quotes will be stripped.
+> If you need [a list of values to not be considered as fallback](https://github.com/meduzen/v-helper/issues/8), wrap them in quotes: as described [in a comment](https://github.com/meduzen/v-helper/issues/8#issuecomment-1368505230), the list will be considered as one value, and the quotes will be stripped.
+>
+> ```scss
+> .my-class {
+>   transition-property: v(transition-properties, 'opacity, visibility');
+>
+>   // generates
+>   transition-property: var(--transition-properties, opacity, visibility);
+> }
+> ```
 
 ## Edge cases
 
