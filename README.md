@@ -64,6 +64,15 @@ html {
 
 The `background` will be `#433221` (`--bg` value) but the `color` will be `yellow` because `--primaryyyy` doesn’t exist.
 
+> **Note**
+>
+> If you need the last parameter to be a string, wrap its quotes in more quotes.
+>
+> ```scss
+> .shrug::after {
+>   content: v(shrug-emoji, "'🤷‍♂️'");
+> }
+> ```
 
 ### Multiple fallbacks
 
@@ -78,9 +87,10 @@ html {
 }
 ```
 
-Notes:
-- if you need the last parameter to not be a fallback value, replace it by `null`;
-- if you need [more parameters to not be fallback values](https://github.com/meduzen/v-helper/issues/8), wrap them in quotes `v()`, as described [in a comment](https://github.com/meduzen/v-helper/issues/8#issuecomment-1368505230).
+> **Note**
+>
+> - if you need the last parameter to not be a fallback value, replace it by `null`;
+> - if you need [a list of values to not be considered as fallback](https://github.com/meduzen/v-helper/issues/8), wrap them in quotes: as described [in a comment](https://github.com/meduzen/v-helper/issues/8#issuecomment-1368505230), the list will be considered as one value, and the quotes will be stripped.
 
 ## Edge cases
 
