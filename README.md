@@ -2,8 +2,7 @@
 
 `v.scss` brings a single SCSS function for shorter access (4 characters saved!) to [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/var) : `v(propName)` instead of `var(--propName)`. It also improves fallbacks chaining.
 
-> **Note**
->
+> [!NOTE]  
 > This helper has cool features, but I have decided to not use it outside of personal projects. Compared to IDE auto-completion, its benefits might not be worth the cognitive load linked to an additional abstraction.
 
 ## Table of contents
